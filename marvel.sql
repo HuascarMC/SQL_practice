@@ -90,6 +90,69 @@ UPDATE movies
 SET show_time = '21:30'
 WHERE id = 11;
 
+-- Deletes specific id's.
+DELETE FROM people WHERE id in (11, 9, 7);
+
+-- Deletes everything between 2 id values.
+DELETE FROM people WHERE id BETWEEN 2 AND 8;
+
+-- Deletes movies with id less or equal to 16 and greater or equal to 5.
+DELETE FROM movies WHERE id <= 16 and id >= 5;
+
 SELECT * FROM movies ORDER BY id ASC;
 
 SELECT * FROM people ORDER BY id ASC;
+
+-- Extension
+
+--DELETE FROM table
+--where id between 163 and 265
+
+-- delete from your_table
+-- where id in (value1, value2, ...);
+--
+-- delete from your_table
+-- where id in (select aColumn from ...);
+-- (Notice that the subquery must return only one column)
+--
+-- If you need to delete based on a range of values, either you use BETWEEN or you use inequalities:
+--
+-- delete from your_table
+-- where id between bottom_value and top_value;
+-- or
+--
+-- delete from your_table
+-- where id >= a_value and id <= another_value;
+
+-- Using Another Table to Identify the Rows to Delete and the OUTPUT Clause
+--
+-- There are times when you might what to delete the rows in a table based on values from another table. An example of where you might want to do this is to remove rows from your inventory table based on some sales data. To demo this first I will need to generate another table that contains key values for the rows I want to delete. Here is the code to create and populate my other table:
+--
+-- CREATE TABLE RecordsToDelete (
+-- DeleteDesc varchar(100));
+-- GO
+-- INSERT INTO RecordsToDelete VALUES
+-- ('Thing Two'),
+-- ('Sally');
+-- At this point after running all my different DELETE statements against my DemoDelete table there are only three rows left in my table. By selecting all the rows in my DemoDelete table I see that these three rows are left:
+--
+-- ID DeleteDesc
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+-- 2 Thing Two
+-- 3 The Cat
+-- 4 Sally
+-- In order to use the RecordsToDelete table to delete specific records in my DemoDelete table I need to run the code below.
+--
+-- DELETE FROM DemoDelete
+-- OUTPUT DELETED.*
+-- FROM DemoDelete INNER JOIN RecordsToDelete
+-- on DemoDelete.DeleteDesc = RecordsToDelete.DeleteDesc;
+-- This code joins the table DemoDelete and RecordsToDelete based on the DeleteDesc column. When the DeleteDesc matches between the two tables the matched rows within the DemoDelete table are deleted.
+--
+-- My delete statement above also contains the OUTPUT clause. The OUTPUT clause is used to return the column values of the deleted rows that are identified in the OUTPUT clause. In the code above I specified "DELETED.*". The "*" means to return all the columns values from the DELETED rows. When I ran this code the following rows were returned:
+--
+-- ID DeleteDesc
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+-- 2 Thing Two
+-- 4 Sally
+-- These returned rows could be used by your application for some purpose, like creating an audit trail.
