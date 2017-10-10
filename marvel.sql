@@ -99,9 +99,15 @@ DELETE FROM people WHERE id BETWEEN 2 AND 8;
 -- Deletes movies with id less or equal to 16 and greater or equal to 5.
 DELETE FROM movies WHERE id <= 16 and id >= 5;
 
+-- Deletes a column.
+--ALTER TABLE table_name
+--DROP COLUMN column_name;
+
 SELECT * FROM movies ORDER BY id ASC;
 
 SELECT * FROM people ORDER BY id ASC;
+
+
 
 -- Extension
 

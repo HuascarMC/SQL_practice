@@ -36,3 +36,9 @@ Use the supplied data as the source of data to answer the questions.  Copy the S
 ## Extension
 
 1. Research how to delete multiple entries from your table in a single command.
+
+A statement is like a 'command' in a SQL file that manipulates date in a database.
+
+'SELECT DISTINCT' will return each type in column without duplicates. f.e 'movie genres'.
+
+'LIKE' will return data with similar characters or values. f.e 'LIKE 'a%' would return movies starting with A'
